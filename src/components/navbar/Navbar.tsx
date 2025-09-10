@@ -1,9 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import ThemeSwitch from "@/components/ThemeSwitch"
+import { useLanguage } from "@/context/LanguageContext"
 
-const NAV_LINKS = {
+type Lang = "es" | "en";
+
+const NAV_LINKS: Record<Lang, { label: string; href: string }[]> = {
   es: [
     { label: "Sobre mí", href: "#about" },
     { label: "Habilidades", href: "#skills" },
@@ -19,7 +22,7 @@ const NAV_LINKS = {
 }
 
 export default function Navbar() {
-  const [lang, setLang] = useState<"es" | "en">("es")
+  const { lang, setLang } = useLanguage()
   const [isDark, setIsDark] = useState<boolean>(false)
 
   useEffect(() => {
@@ -43,16 +46,15 @@ export default function Navbar() {
             className="w-10 h-10 object-contain"
           />
         </a>
-        {/* Links con glitch effect adaptativo */}
+        {/* Links con glitch effect SIEMPRE visible */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-center">
-          {NAV_LINKS[lang].map(link => (
+          {NAV_LINKS[lang].map((link) => (
             <a
               key={link.label}
               href={link.href}
               className="glitch font-mono font-semibold 
                 text-slate-800 dark:text-slate-200 
-                hover:text-[#FF0055] dark:hover:text-[#00BFFF] 
-                hover:animate-glitch animate-none transition"
+                transition"
             >
               {link.label}
             </a>
@@ -63,14 +65,12 @@ export default function Navbar() {
           <button
             className="glitch border px-3 py-1 rounded-full text-xs font-medium 
               hover:bg-slate-100 dark:hover:bg-slate-800 
-              hover:text-[#FF0055] dark:hover:text-[#00BFFF] 
-              hover:animate-glitch animate-none transition"
+              transition"
             onClick={() => setLang(lang === "es" ? "en" : "es")}
             aria-label="Cambiar idioma"
           >
             {lang === "es" ? "EN" : "ES"}
           </button>
-          {/* No pases className si ThemeSwitch no lo soporta */}
           <ThemeSwitch />
         </div>
       </div>

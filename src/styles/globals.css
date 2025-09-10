@@ -129,9 +129,23 @@ code, pre, .code {
   font-family: var(--font-mono), monospace;
 }
 
+/* Colores en hover */
 .glitch:hover {
-  text-shadow: 0 0 2px #FF0055, 0 0 8px #00BFFF; /* Claro: rojo + azul */
+  text-shadow: 0 0 2px #FF0055, 0 0 8px #00BFFF;
 }
 .dark .glitch:hover {
-  text-shadow: 0 0 2px #00BFFF, 0 0 8px #FF0055; /* Oscuro: azul + rojo */
+  text-shadow: 0 0 2px #00BFFF, 0 0 8px #FF0055;
+}
+
+/* Animación glitch sólo en hover */
+.glitch:hover {
+  animation: glitch-animation 0.5s linear infinite;
+}
+@keyframes glitch-animation {
+  0% { text-shadow: 2px 0 #FF0055, -2px 0 #00BFFF; transform: translate(0); }
+  20% { text-shadow: -2px 0 #FF0055, 2px 0 #00BFFF; transform: translate(-1px, 1px);}
+  40% { text-shadow: 2px 2px #FF0055, -2px -2px #00BFFF; transform: translate(1px, -1px);}
+  60% { text-shadow: -2px -2px #FF0055, 2px 2px #00BFFF; transform: translate(-1px, 1px);}
+  80% { text-shadow: 2px 0 #FF0055, -2px 0 #00BFFF; transform: translate(1px, -1px);}
+  100% { text-shadow: 0 0 2px #FF0055, 0 0 8px #00BFFF; transform: translate(0);}
 }
