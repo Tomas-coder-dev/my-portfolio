@@ -128,3 +128,10 @@
 code, pre, .code {
   font-family: var(--font-mono), monospace;
 }
+
+.glitch:hover {
+  text-shadow: 0 0 2px #FF0055, 0 0 8px #00BFFF; /* Claro: rojo + azul */
+}
+.dark .glitch:hover {
+  text-shadow: 0 0 2px #00BFFF, 0 0 8px #FF0055; /* Oscuro: azul + rojo */
+}

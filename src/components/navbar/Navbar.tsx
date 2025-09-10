@@ -43,13 +43,16 @@ export default function Navbar() {
             className="w-10 h-10 object-contain"
           />
         </a>
-        {/* Links */}
+        {/* Links con glitch effect adaptativo */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-center">
           {NAV_LINKS[lang].map(link => (
             <a
               key={link.label}
               href={link.href}
-              className="font-semibold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition"
+              className="glitch font-mono font-semibold 
+                text-slate-800 dark:text-slate-200 
+                hover:text-[#FF0055] dark:hover:text-[#00BFFF] 
+                hover:animate-glitch animate-none transition"
             >
               {link.label}
             </a>
@@ -58,12 +61,16 @@ export default function Navbar() {
         {/* Acciones: idioma y tema */}
         <div className="flex gap-2 items-center">
           <button
-            className="border px-3 py-1 rounded-full text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            className="glitch border px-3 py-1 rounded-full text-xs font-medium 
+              hover:bg-slate-100 dark:hover:bg-slate-800 
+              hover:text-[#FF0055] dark:hover:text-[#00BFFF] 
+              hover:animate-glitch animate-none transition"
             onClick={() => setLang(lang === "es" ? "en" : "es")}
             aria-label="Cambiar idioma"
           >
             {lang === "es" ? "EN" : "ES"}
           </button>
+          {/* No pases className si ThemeSwitch no lo soporta */}
           <ThemeSwitch />
         </div>
       </div>
