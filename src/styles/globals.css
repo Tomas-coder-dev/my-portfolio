@@ -110,6 +110,8 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --font-sans: var(--font-spacegrotesk);
+  --font-mono: var(--font-jetbrainsmono);
 }
 
 @layer base {
@@ -118,5 +120,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), system-ui, sans-serif;
   }
+}
+
+/* 4. Tipografía mono para código */
+code, pre, .code {
+  font-family: var(--font-mono), monospace;
 }
