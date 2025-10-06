@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import ThemeSwitch from "@/components/ThemeSwitch"
 import { useLanguage } from "@/context/LanguageContext"
+import Link from "next/link"
+import Image from "next/image"
 
 type Lang = "es" | "en";
 
@@ -39,14 +41,17 @@ export default function Navbar() {
     <nav className="w-full border-b bg-white dark:bg-slate-900">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-4 gap-4 md:gap-0">
         {/* Logo dinámico por tema */}
-        <a href="/" className="flex items-center gap-2">
-          <img
+        <Link href="/" className="flex items-center gap-2">
+          <Image
             src={isDark ? "/LogoB.png" : "/LogoN.png"}
             alt="Logo Fabricio Aylas"
+            width={40}
+            height={40}
             className="w-10 h-10 object-contain"
+            priority
           />
-        </a>
-        {/* Links con glitch effect SIEMPRE visible */}
+        </Link>
+        {/* Links con glitch effect SOLO en hover */}
         <div className="flex flex-col md:flex-row gap-3 md:gap-8 items-center">
           {NAV_LINKS[lang].map((link) => (
             <a
