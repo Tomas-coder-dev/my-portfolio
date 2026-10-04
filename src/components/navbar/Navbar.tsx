@@ -11,12 +11,14 @@ type Lang = "es" | "en";
 const NAV_LINKS: Record<Lang, { label: string; href: string }[]> = {
   es: [
     { label: "Sobre mí", href: "#about" },
+    { label: "Experiencia", href: "#experience" },
     { label: "Habilidades", href: "#skills" },
     { label: "Proyectos", href: "#projects" },
     { label: "Contacto", href: "#contact" },
   ],
   en: [
     { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
