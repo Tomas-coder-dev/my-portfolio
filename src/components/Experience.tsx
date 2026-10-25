@@ -1,107 +1,191 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import { useLanguage } from "@/context/LanguageContext";
+import SectionTitle from "@/components/SectionTitle";
 import { Briefcase } from "lucide-react";
+
+type Copy = { es: string; en: string };
+
+type Job = {
+  company: string;
+  product: Copy;
+  role: Copy;
+  date: Copy;
+  place: Copy;
+  current?: boolean;
+  stack: string[];
+  points: { es: string[]; en: string[] };
+};
+
+const JOBS: Job[] = [
+  {
+    company: "Belity",
+    product: { es: "Plataforma de belleza a domicilio", en: "At-home beauty platform" },
+    role: { es: "Desarrollador Full Stack Mobile", en: "Full Stack Mobile Developer" },
+    date: { es: "Octubre 2026 — Actualidad", en: "October 2026 — Present" },
+    place: { es: "Lima, Perú", en: "Lima, Peru" },
+    current: true,
+    stack: ["Flutter", "GetX", "Firebase", "Node.js", "TypeScript", "Laravel", "Docker", "Cloud Run", "AWS Rekognition", "ML Kit"],
+    points: {
+      es: [
+        "Implementación de procesos de verificación de identidad mediante AWS Rekognition, incluyendo comparación facial y prueba de vida (Face Liveness).",
+        "Integración de servicios de inteligencia artificial con Grok para la clasificación y evaluación de calidad de imágenes durante el registro de profesionales.",
+        "Desarrollo de funcionalidades de OCR y validación documental para DNI, cédulas, pasaportes y documentos PDF mediante Google ML Kit.",
+        "Desarrollo e integración de microservicios con Node.js, TypeScript y Express, desplegados en Google Cloud Run mediante Docker y conectados con Laravel.",
+        "Mantenimiento y evolución de la aplicación móvil en Flutter, utilizando GetX y Firebase, y gestión de publicaciones en Google Play Console y App Store Connect.",
+      ],
+      en: [
+        "Implemented identity verification with AWS Rekognition, including facial comparison and Face Liveness.",
+        "Integrated Grok to classify images and assess their quality while professionals sign up.",
+        "Built OCR and document validation for national IDs, passports and PDFs with Google ML Kit.",
+        "Built and integrated microservices with Node.js, TypeScript and Express, deployed on Google Cloud Run with Docker and connected to Laravel.",
+        "Maintained and evolved the Flutter app with GetX and Firebase, and managed releases on Google Play Console and App Store Connect.",
+      ],
+    },
+  },
+  {
+    company: "Firefly One",
+    product: { es: "Sistemas para el sector asegurador", en: "Insurance-sector systems" },
+    role: { es: "Desarrollador Full Stack", en: "Full Stack Developer" },
+    date: { es: "Julio 2026 — Septiembre 2026", en: "July 2026 — September 2026" },
+    place: { es: "Lima, Perú", en: "Lima, Peru" },
+    stack: ["Vue.js", "Laravel", "REST", "GitHub", "Jira"],
+    points: {
+      es: [
+        "Desarrollo y modernización de sistemas empresariales para el sector asegurador mediante Vue.js y Laravel.",
+        "Implementación y consumo de APIs REST, con énfasis en la integración entre frontend y backend, la seguridad y el rendimiento.",
+        "Gestión de código mediante Git y GitHub, participando en Pull Requests y revisiones de código para mejorar la mantenibilidad.",
+        "Seguimiento de tareas y coordinación con equipos multidisciplinarios mediante Jira y metodologías ágiles.",
+      ],
+      en: [
+        "Built and modernized enterprise systems for the insurance sector with Vue.js and Laravel.",
+        "Implemented and consumed REST APIs, with emphasis on frontend-backend integration, security and performance.",
+        "Managed code with Git and GitHub, taking part in pull requests and code reviews to improve maintainability.",
+        "Tracked tasks and coordinated with cross-functional teams using Jira and agile methods.",
+      ],
+    },
+  },
+  {
+    company: "Syncra Connect",
+    product: { es: "CRM empresarial · Proyecto Unilene", en: "Enterprise CRM · Unilene project" },
+    role: { es: "Desarrollador Full Stack", en: "Full Stack Developer" },
+    date: { es: "Febrero 2026 — Junio 2026", en: "February 2026 — June 2026" },
+    place: { es: "Lima, Perú", en: "Lima, Peru" },
+    stack: [".NET", "Angular", "Flutter", "SQL Server", "Git"],
+    points: {
+      es: [
+        "Desarrollo y mantenimiento de funcionalidades para un CRM empresarial.",
+        "Implementación y consumo de APIs REST con .NET y desarrollo de interfaces con Angular.",
+        "Participación en el desarrollo de funcionalidades móviles utilizando Flutter.",
+        "Creación y optimización de consultas y procedimientos almacenados en SQL Server.",
+        "Corrección de incidencias, mantenimiento de funcionalidades existentes y control de versiones con Git.",
+      ],
+      en: [
+        "Built and maintained features for an enterprise CRM.",
+        "Implemented and consumed REST APIs with .NET and built interfaces with Angular.",
+        "Took part in mobile features using Flutter.",
+        "Created and optimized SQL Server queries and stored procedures.",
+        "Fixed issues, maintained existing features and handled version control with Git.",
+      ],
+    },
+  },
+  {
+    company: "TECSUP",
+    product: { es: "Inventario químico de laboratorio", en: "Academic lab chemical inventory" },
+    role: { es: "Desarrollador Full Stack — Proyecto académico", en: "Full Stack Developer — Academic project" },
+    date: { es: "Mayo 2025 — Septiembre 2025", en: "May 2025 — September 2025" },
+    place: { es: "Lima, Perú", en: "Lima, Peru" },
+    stack: ["Laravel", "SQLite", "CRUD"],
+    points: {
+      es: [
+        "Desarrollo de un sistema web para la gestión de inventario químico de un laboratorio académico.",
+        "Implementación de operaciones CRUD, control de existencias y generación de reportes automatizados.",
+        "Desarrollo del backend con Laravel y gestión de datos mediante SQLite.",
+        "Documentación técnica y desarrollo iterativo bajo una metodología ágil.",
+      ],
+      en: [
+        "Built a web system to manage the chemical inventory of an academic laboratory.",
+        "Implemented CRUD operations, stock control and automated reports.",
+        "Built the backend with Laravel and stored the data in SQLite.",
+        "Wrote technical documentation and delivered the work iteratively under an agile method.",
+      ],
+    },
+  },
+  {
+    company: "Cimark Comunicación Corporativa S.A.C.",
+    product: { es: "Interfaces web y experiencia de usuario", en: "Web interfaces and user experience" },
+    role: { es: "Desarrollador Full Stack", en: "Full Stack Developer" },
+    date: { es: "Febrero 2024 — Enero 2025", en: "February 2024 — January 2025" },
+    place: { es: "Lima, Perú", en: "Lima, Peru" },
+    stack: ["UX/UI", "Responsive", "Web"],
+    points: {
+      es: [
+        "Desarrollo y mejora de interfaces web con enfoque en experiencia de usuario (UX/UI) y diseño adaptable.",
+        "Implementación de mejoras visuales y funcionales a partir del análisis de plataformas del sector.",
+        "Optimización de la navegación, estructura y usabilidad de sitios web.",
+        "Colaboración con el equipo interno para alinear las soluciones de interfaz con los objetivos del negocio.",
+      ],
+      en: [
+        "Built and improved web interfaces focused on user experience (UX/UI) and responsive design.",
+        "Implemented visual and functional improvements based on analysis of platforms in the sector.",
+        "Improved navigation, structure and usability of the websites.",
+        "Worked with the internal team so the interface solutions matched business goals.",
+      ],
+    },
+  },
+];
 
 export default function Experience() {
   const { lang } = useLanguage();
-
-  const data = {
-    title: { es: "Experiencia Profesional", en: "Professional Experience" },
-    jobs: [
-      {
-        company: "Belity",
-        role: { es: "Desarrollador Full Stack Mobile", en: "Full Stack Mobile Developer" },
-        date: { es: "Oct 2026 - Actualidad", en: "Oct 2026 - Present" },
-        description: {
-          es: [
-            "Desarrollo y mantenimiento de la aplicación móvil Belity, plataforma de servicios de belleza a domicilio.",
-            "Desarrollo de funcionalidades móviles escalables utilizando Flutter para Android e iOS.",
-            "Implementación de nuevas funcionalidades y mantenimiento de integraciones bajo arquitectura de microservicios usando Laravel y Node.js.",
-            "Gestión de versiones y publicación de actualizaciones en Google Play y App Store."
-          ],
-          en: [
-            "Development and maintenance of the Belity mobile application, an at-home beauty services platform.",
-            "Developed scalable mobile solutions using Flutter for Android and iOS.",
-            "Implementation of new features and maintenance of integrations under a microservices architecture using Laravel and Node.js.",
-            "Managed versioning and publishing updates on Google Play and the App Store."
-          ]
-        }
-      },
-      {
-        company: "Firefly One",
-        role: { es: "Desarrollador Full Stack", en: "Full Stack Developer" },
-        date: { es: "Jul 2026 - Sept 2026", en: "Jul 2026 - Sept 2026" },
-        description: {
-          es: [
-            "Desarrollo y modernización de sistemas empresariales críticos para el sector asegurador.",
-            "Construcción de soluciones Full Stack utilizando Vue.js y Laravel, optimizando el rendimiento de la aplicación y APIs REST.",
-            "Implementación de flujos de trabajo colaborativos y revisión exhaustiva de código (Pull Requests) con Git y GitHub."
-          ],
-          en: [
-            "Development and modernization of critical enterprise systems for the insurance sector.",
-            "Built Full Stack solutions using Vue.js and Laravel, optimizing application performance and REST APIs.",
-            "Implemented collaborative workflows and comprehensive code reviews (Pull Requests) with Git and GitHub."
-          ]
-        }
-      },
-      {
-        company: "Syncra Connect — Proyecto Unilene",
-        role: { es: "Desarrollador Full Stack", en: "Full Stack Developer" },
-        date: { es: "Feb 2026 - Jun 2026", en: "Feb 2026 - Jun 2026" },
-        description: {
-          es: [
-            "Desarrollo y mantenimiento de funcionalidades para CRM empresarial.",
-            "Implementación y consumo de APIs REST utilizando .NET y SQL Server.",
-            "Desarrollo de interfaces y componentes frontend utilizando Angular.",
-            "Participación en desarrollo de funcionalidades móviles utilizando Flutter."
-          ],
-          en: [
-            "Development and maintenance of features for an enterprise CRM.",
-            "Implementation and consumption of REST APIs using .NET and SQL Server.",
-            "Developed frontend interfaces and components using Angular.",
-            "Participated in the development of mobile features using Flutter."
-          ]
-        }
-      }
-    ]
-  };
+  const reduce = useReducedMotion();
 
   return (
-    <section id="experience" className="py-20 px-6 bg-slate-100 dark:bg-slate-900/50">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
-          <Briefcase className="text-blue-500 w-8 h-8" />
-          {data.title[lang]}
-        </h2>
-        
-        <div className="space-y-8">
-          {data.jobs.map((job, i) => (
-            <div key={i} className="relative pl-8 md:pl-0">
-              <div className="md:grid md:grid-cols-4 md:gap-8 items-start relative">
-                <div className="hidden md:block absolute top-0 bottom-0 left-[25%] border-l-2 border-slate-200 dark:border-slate-800"></div>
-                <div className="hidden md:block absolute top-2 left-[calc(25%-5px)] w-[12px] h-[12px] rounded-full bg-blue-500 border-4 border-slate-100 dark:border-slate-900 z-10"></div>
-                
-                <div className="md:col-span-1 mb-4 md:mb-0 md:text-right md:pr-12 pt-1">
-                  <h3 className="font-bold text-lg text-slate-900 dark:text-white">{job.company}</h3>
-                  <p className="text-blue-600 dark:text-blue-400 font-medium text-sm mt-1">{job.role[lang]}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-mono mt-2">{job.date[lang]}</p>
-                </div>
-                
-                <div className="md:col-span-3 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700/50 hover:shadow-md transition-shadow">
-                  <ul className="space-y-3">
-                    {job.description[lang].map((desc, j) => (
-                      <li key={j} className="text-slate-700 dark:text-slate-300 text-sm md:text-base flex items-start gap-3">
-                        <span className="text-blue-500 font-bold mt-0.5">▹</span>
-                        <span className="leading-relaxed">{desc}</span>
+    <section id="experience" className="scroll-mt-24 px-4 py-16 md:px-6 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionTitle
+          kicker="03  //  experiencia"
+          title={lang === "es" ? "Experiencia" : "Experience"}
+          icon={<Briefcase className="size-7" />}
+        />
+
+        <ol className="m-0 list-none border-t border-[var(--line)] p-0">
+          {JOBS.map((job, index) => {
+            const [start, end] = job.date[lang].split(" — ");
+            return (
+              <motion.li
+                key={job.company}
+                initial={reduce ? false : { opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: reduce ? 0 : 0.45, delay: reduce ? 0 : index * 0.04 }}
+                className="grid gap-3 border-b border-[var(--line)] py-10 md:grid-cols-[4.5rem_1fr_13rem] md:gap-8"
+              >
+                <p className="font-mono text-sm text-[var(--lime)]">{String(index + 1).padStart(2, "0")}</p>
+                <div>
+                  <h3 className="text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">{job.company}</h3>
+                  <p className="mt-1 text-sm text-[var(--soft)]">{job.product[lang]}</p>
+                  <p className="mt-3 text-sm text-[var(--ink)]">
+                    {job.role[lang]}
+                    <span className="text-[var(--soft)]"> · {job.place[lang]}</span>
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {job.points[lang].map((point) => (
+                      <li key={point} className="text-sm leading-relaxed text-[var(--soft)]">
+                        {point}
                       </li>
                     ))}
                   </ul>
+                  <p className="mt-4 font-mono text-xs leading-relaxed text-[var(--soft)]">{job.stack.join("  ·  ")}</p>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                <p className="font-mono text-xs text-[var(--soft)] md:text-right">
+                  <span className="block text-[var(--ink)]">{start}</span>
+                  <span className={`mt-1 block ${job.current ? "text-[var(--lime)]" : ""}`}>{end ?? job.date[lang]}</span>
+                </p>
+              </motion.li>
+            );
+          })}
+        </ol>
       </div>
     </section>
   );

@@ -1,47 +1,62 @@
-"use client"
+"use client";
 
-import { useId, useState, useEffect } from "react"
-import { MoonIcon, SunIcon } from "lucide-react"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ThemeSwitch() {
-  const id = useId()
-  // Detecta si el tema ya es oscuro en la página
-  const [checked, setChecked] = useState<boolean>(
-    typeof window !== "undefined"
-      ? document.documentElement.classList.contains("dark")
-      : false
-  )
+  const { lang } = useLanguage();
+  const [checked, setChecked] = useState(false);
+  const [ready, setReady] = useState(false);
 
-  // Cambia el tema cuando cambias el switch
   useEffect(() => {
-    if (checked) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [checked])
+    setChecked(document.documentElement.classList.contains("dark"));
+    setReady(true);
+  }, []);
+
+  const toggle = () => {
+    const next = !document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+    setChecked(next);
+  };
+
+  const label = checked
+    ? lang === "es"
+      ? "Activar modo claro"
+      : "Switch to light mode"
+    : lang === "es"
+      ? "Activar modo oscuro"
+      : "Switch to dark mode";
+
+  if (!ready) {
+    return <div className="h-[34px] w-[60px]" aria-hidden />;
+  }
 
   return (
-    <div>
-      <div className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center text-sm font-medium">
-        <Switch
-          id={id}
-          checked={checked}
-          onCheckedChange={setChecked}
-          className="peer data-[state=checked]:bg-input/50 data-[state=unchecked]:bg-input/50 absolute inset-0 h-[inherit] w-auto [&_span]:h-full [&_span]:w-1/2 [&_span]:transition-transform [&_span]:duration-300 [&_span]:ease-[cubic-bezier(0.16,1,0.3,1)] [&_span]:data-[state=checked]:translate-x-full [&_span]:data-[state=checked]:rtl:-translate-x-full"
-        />
-        <span className="peer-data-[state=checked]:text-muted-foreground/70 pointer-events-none relative ms-0.5 flex min-w-8 items-center justify-center text-center">
-          <MoonIcon size={16} aria-hidden="true" />
-        </span>
-        <span className="peer-data-[state=unchecked]:text-muted-foreground/70 pointer-events-none relative me-0.5 flex min-w-8 items-center justify-center text-center">
-          <SunIcon size={16} aria-hidden="true" />
-        </span>
+    <label className="pf-theme">
+      <input type="checkbox" checked={checked} onChange={toggle} aria-label={label} />
+      <div className="slider round">
+        <div className="sun-moon">
+          <svg className="moon-dot moon-dot-1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="moon-dot moon-dot-2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="moon-dot moon-dot-3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="light-ray light-ray-1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="light-ray light-ray-2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="light-ray light-ray-3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-dark cloud-1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-dark cloud-2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-dark cloud-3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-light cloud-4" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-light cloud-5" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+          <svg className="cloud-light cloud-6" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" /></svg>
+        </div>
+        <div className="stars">
+          <svg className="star star-1" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+          <svg className="star star-2" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+          <svg className="star star-3" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+          <svg className="star star-4" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z" /></svg>
+        </div>
       </div>
-      <Label htmlFor={id} className="sr-only">
-        Cambiar tema
-      </Label>
-    </div>
-  )
+    </label>
+  );
 }

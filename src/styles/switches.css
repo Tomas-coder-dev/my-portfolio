@@ -1,0 +1,264 @@
+/* Language and theme toggles ported from PostulaFácil */
+
+.pf-lang {
+  font-size: 13px;
+  position: relative;
+  display: inline-block;
+  width: 5em;
+  height: 2.5em;
+  user-select: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.pf-lang .cb {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.pf-lang .toggle {
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: #373737;
+  border-radius: 0.2em;
+  transition: 0.4s;
+  text-transform: uppercase;
+  font-weight: 700;
+  overflow: hidden;
+  box-shadow:
+    -0.3em 0 0 0 #373737,
+    -0.3em 0.3em 0 0 #373737,
+    0.3em 0 0 0 #373737,
+    0.3em 0.3em 0 0 #373737,
+    0 0.3em 0 0 #373737;
+  perspective: 140px;
+}
+
+.pf-lang .toggle > .left {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: #373737;
+  left: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: right;
+  transform: rotateX(10deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+}
+
+.pf-lang .left::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center left;
+  transform: rotateY(90deg);
+}
+
+.pf-lang .left::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.pf-lang .toggle > .right {
+  position: absolute;
+  display: flex;
+  width: 50%;
+  height: 88%;
+  background-color: #f3f3f3;
+  color: rgb(206, 206, 206);
+  right: 1px;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  transform-origin: left;
+  transform: rotateX(10deg) rotateY(-45deg);
+  transform-style: preserve-3d;
+  transition: all 150ms;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+}
+
+.pf-lang .right::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(206, 206, 206);
+  transform-origin: center right;
+  transform: rotateY(-90deg);
+}
+
+.pf-lang .right::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgb(112, 112, 112);
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+}
+
+.pf-lang input:checked + .toggle > .left {
+  transform: rotateX(10deg) rotateY(45deg);
+  color: rgb(206, 206, 206);
+}
+
+.pf-lang input:checked + .toggle > .right {
+  transform: rotateX(10deg) rotateY(0deg);
+  color: #487bdb;
+}
+
+.pf-lang input:focus-visible + .toggle {
+  outline: 2px solid #3b82f6;
+  outline-offset: 4px;
+}
+
+.pf-theme {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.pf-theme input {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.pf-theme .slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #2196f3;
+  transition: 0.4s;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.pf-theme .sun-moon {
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: yellow;
+  transition: 0.4s;
+  z-index: 10;
+}
+
+.pf-theme input:checked + .slider {
+  background-color: black;
+  box-shadow: 0 0 0 1px rgba(255, 45, 60, 0.8);
+}
+
+.pf-theme input:checked + .slider .sun-moon {
+  transform: translateX(26px);
+  background-color: white;
+  animation: pf-rotate-center 0.6s ease-in-out both;
+}
+
+.pf-theme .moon-dot {
+  opacity: 0;
+  transition: 0.4s;
+  fill: gray;
+}
+
+.pf-theme input:checked + .slider .sun-moon .moon-dot {
+  opacity: 1;
+}
+
+.pf-theme .slider.round {
+  border-radius: 34px;
+}
+
+.pf-theme .slider.round .sun-moon {
+  border-radius: 50%;
+}
+
+.pf-theme .moon-dot-1 { left: 10px; top: 3px; position: absolute; width: 6px; height: 6px; z-index: 4; }
+.pf-theme .moon-dot-2 { left: 2px; top: 10px; position: absolute; width: 10px; height: 10px; z-index: 4; }
+.pf-theme .moon-dot-3 { left: 16px; top: 18px; position: absolute; width: 3px; height: 3px; z-index: 4; }
+.pf-theme .light-ray-1 { left: -8px; top: -8px; position: absolute; width: 43px; height: 43px; z-index: -1; fill: white; opacity: 10%; }
+.pf-theme .light-ray-2 { left: -50%; top: -50%; position: absolute; width: 55px; height: 55px; z-index: -1; fill: white; opacity: 10%; }
+.pf-theme .light-ray-3 { left: -18px; top: -18px; position: absolute; width: 60px; height: 60px; z-index: -1; fill: white; opacity: 10%; }
+
+.pf-theme .cloud-light { position: absolute; fill: #eee; animation: pf-cloud-move 6s infinite; }
+.pf-theme .cloud-dark { position: absolute; fill: #ccc; animation: pf-cloud-move 6s infinite 1s; }
+.pf-theme .cloud-1 { left: 30px; top: 15px; width: 40px; }
+.pf-theme .cloud-2 { left: 44px; top: 10px; width: 20px; }
+.pf-theme .cloud-3 { left: 18px; top: 24px; width: 30px; }
+.pf-theme .cloud-4 { left: 36px; top: 18px; width: 40px; }
+.pf-theme .cloud-5 { left: 48px; top: 14px; width: 20px; }
+.pf-theme .cloud-6 { left: 22px; top: 26px; width: 30px; }
+
+.pf-theme .stars { transform: translateY(-32px); opacity: 0; transition: 0.4s; }
+.pf-theme .star { fill: white; position: absolute; transition: 0.4s; animation: pf-star-twinkle 2s infinite; }
+.pf-theme input:checked + .slider .stars { transform: translateY(0); opacity: 1; }
+.pf-theme .star-1 { width: 20px; top: 2px; left: 3px; animation-delay: 0.3s; }
+.pf-theme .star-2 { width: 6px; top: 16px; left: 3px; }
+.pf-theme .star-3 { width: 12px; top: 20px; left: 10px; animation-delay: 0.6s; }
+.pf-theme .star-4 { width: 18px; top: 0px; left: 18px; animation-delay: 1.3s; }
+
+.pf-theme input:focus-visible + .slider {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+}
+
+@keyframes pf-cloud-move {
+  0% { transform: translateX(0px); }
+  40% { transform: translateX(4px); }
+  80% { transform: translateX(-4px); }
+  100% { transform: translateX(0px); }
+}
+
+@keyframes pf-star-twinkle {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.2); }
+  80% { transform: scale(0.8); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pf-rotate-center {
+  0% { transform: translateX(26px) rotate(0deg); }
+  100% { transform: translateX(26px) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-theme .star,
+  .pf-theme .cloud-light,
+  .pf-theme .cloud-dark,
+  .pf-theme input:checked + .slider .sun-moon {
+    animation: none;
+  }
+}

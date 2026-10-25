@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "@/styles/globals.css"
+import CodeRain from "@/components/CodeRain"
 import Navbar from "@/components/navbar/Navbar"
 import { LanguageProvider } from "@/context/LanguageContext"
 
@@ -16,9 +17,19 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
+const themeInit = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"){document.documentElement.classList.add("dark")}}catch(e){}})();`
+
 export const metadata: Metadata = {
-  title: "Fabricio Aylas | Portafolio",
-  description: "Portfolio personal de Fabricio Aylas",
+  title: "Fabricio Aylas Moreno | Desarrollador Full Stack",
+  description:
+    "Portafolio de Fabricio Aylas Moreno, desarrollador Full Stack en Lima. Apps móviles en producción, APIs, cloud e integraciones con IA.",
+  openGraph: {
+    title: "Fabricio Aylas Moreno | Desarrollador Full Stack",
+    description:
+      "Apps móviles en producción, APIs, cloud e integraciones con IA. Estudiante de Ingeniería de Software en USIL.",
+    locale: "es_PE",
+    type: "website",
+  },
 }
 
 export default function RootLayout({
@@ -27,11 +38,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-300`}>
+    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} craft min-h-screen antialiased`}
+      >
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <CodeRain />
         <LanguageProvider>
           <Navbar />
-          <main className="min-h-[calc(100vh-64px)]">{children}</main>
+          <main className="relative z-10">{children}</main>
         </LanguageProvider>
       </body>
     </html>

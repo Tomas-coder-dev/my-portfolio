@@ -1,103 +1,113 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import TiltPortrait from "@/components/TiltPortrait";
 
-const profile = {
-  name: "Fabricio Aylas",
-  avatar: "https://avatars.githubusercontent.com/u/149453943?v=4",
-  title: {
-    en: "Software engineer & Full Stack Developer",
-    es: "Ingeniero de Software y Desarrollador Full Stack",
-  },
-  typing: {
-    en: "Building scalable web & mobile solutions.",
-    es: "Construyendo soluciones web y móviles escalables.",
-  },
+const PHRASES = {
+  es: ["Biometría y OCR.", "Flutter en Android e iOS.", "APIs y cloud."],
+  en: ["Biometrics and OCR.", "Flutter on Android and iOS.", "APIs and cloud."],
 };
 
 export default function Hero() {
   const { lang } = useLanguage();
-  const typingText = profile.typing[lang];
-
+  const lines = PHRASES[lang];
+  const [phrase, setPhrase] = useState(0);
   const [typed, setTyped] = useState("");
   const [phase, setPhase] = useState<"typing" | "pause" | "deleting">("typing");
-  const [index, setIndex] = useState(0);
-
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    setPhrase(0);
     setTyped("");
     setPhase("typing");
-    setIndex(0);
-    if (timerRef.current) clearTimeout(timerRef.current);
-  }, [typingText]);
+  }, [lang]);
+
+  const full = lines[phrase] ?? "";
 
   useEffect(() => {
+    let timer = 0;
     if (phase === "typing") {
-      if (index < typingText.length) {
-        timerRef.current = setTimeout(() => {
-          setTyped(typingText.slice(0, index + 1));
-          setIndex(index + 1);
-        }, 100);
-      } else {
-        timerRef.current = setTimeout(() => setPhase("pause"), 1500);
-      }
+      if (typed.length < full.length) timer = window.setTimeout(() => setTyped(full.slice(0, typed.length + 1)), 42);
+      else timer = window.setTimeout(() => setPhase("pause"), 1200);
     } else if (phase === "pause") {
-      timerRef.current = setTimeout(() => setPhase("deleting"), 1500);
-    } else if (phase === "deleting") {
-      if (index > 0) {
-        timerRef.current = setTimeout(() => {
-          setTyped(typingText.slice(0, index - 1));
-          setIndex(index - 1);
-        }, 50);
-      } else {
-        timerRef.current = setTimeout(() => setPhase("typing"), 100);
-      }
+      timer = window.setTimeout(() => setPhase("deleting"), 500);
+    } else if (typed.length > 0) {
+      timer = window.setTimeout(() => setTyped(full.slice(0, typed.length - 1)), 18);
+    } else {
+      setPhrase((index) => (index + 1) % lines.length);
+      setPhase("typing");
     }
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [phase, index, typingText]);
+    return () => window.clearTimeout(timer);
+  }, [phase, typed, full, lines.length]);
+
+  const copy = {
+    kicker: { es: "Belity · Lima · USIL", en: "Belity · Lima · USIL" },
+    a: { es: "Fabricio", en: "Fabricio" },
+    b: { es: "Aylas", en: "Aylas" },
+    c: { es: "Full stack.", en: "Full stack." },
+    who: { es: "Play Store, App Store y Cloud Run.", en: "Play Store, App Store and Cloud Run." },
+    study: { es: "Ingeniería de Software · USIL", en: "Software Engineering · USIL" },
+    projects: { es: "Ver proyectos", en: "View projects" },
+    contact: { es: "Contactar", en: "Contact" },
+  };
 
   return (
-    <section id="hero" className="min-h-[90vh] flex items-center justify-center px-6 pt-16">
-      <div className="flex flex-col lg:flex-row gap-12 items-center justify-center w-full max-w-5xl">
-        <div className="flex-1 flex justify-center lg:justify-end mb-8 lg:mb-0">
-          <div className="relative rounded-full border-4 border-blue-500/30 dark:border-blue-400/30 p-2 shadow-2xl shadow-blue-500/20">
-            <div className="rounded-full overflow-hidden w-[260px] h-[260px] md:w-[320px] md:h-[320px] bg-slate-200 dark:bg-slate-800">
-              <Image
-                src={profile.avatar}
-                alt={profile.name}
-                width={320}
-                height={320}
-                className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
-                priority
-              />
+    <section id="hero" className="scroll-mt-24 px-4 pb-8 pt-8 md:px-6 md:pt-14">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--soft)]">
+          <span className="text-[var(--lime)]">{copy.kicker[lang]}</span>
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="size-3" /> Lima, Perú
+          </span>
+        </div>
+
+        <h1 className="mt-8 text-[clamp(3.4rem,11vw,8.4rem)] font-semibold leading-[0.82] tracking-[-0.055em] text-[var(--ink)]">
+          <span className="block">{copy.a[lang]}</span>
+          <span className="flex flex-wrap items-end gap-x-5 gap-y-1">
+            <span>{copy.b[lang]}</span>
+            <span className="signal pb-[0.14em] text-[clamp(1.45rem,2.8vw,2.5rem)] leading-none tracking-[-0.04em] text-[var(--lime)]">
+              {copy.c[lang]}
+            </span>
+          </span>
+        </h1>
+
+        <div className="mt-10 grid items-end gap-10 lg:grid-cols-[1fr_280px]">
+          <div>
+            <p className="max-w-md text-lg text-[var(--ink)]">{copy.who[lang]}</p>
+            <p className="mt-1 font-mono text-sm text-[var(--soft)]">
+              {copy.study[lang]}
+              <span className="mx-2 text-[var(--lime)]">/</span>
+              {typed}
+              <span className="ml-0.5 inline-block h-3 w-px translate-y-0.5 bg-[var(--lime)]" />
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="#projects" className="btn btn-primary glitch">
+                {copy.projects[lang]}
+                <ArrowUpRight className="size-4" />
+              </a>
+              <a href="#contact" className="btn btn-secondary glitch">
+                {copy.contact[lang]}
+              </a>
             </div>
           </div>
+          <TiltPortrait />
         </div>
-        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-          <h1 className="text-slate-900 dark:text-white font-extrabold text-5xl md:text-6xl lg:text-7xl font-sans tracking-tight">
-            {profile.name}
-          </h1>
-          <h2 className="text-blue-600 dark:text-blue-400 text-2xl md:text-3xl lg:text-4xl font-bold mt-4">
-            {profile.title[lang]}
-          </h2>
-          <div className="text-xl md:text-2xl font-mono min-h-[60px] mt-4 text-slate-600 dark:text-slate-300">
-            <span>{typed}</span>
-            <span className="animate-pulse inline-block ml-1 text-blue-500">|</span>
-          </div>
-          <div className="flex gap-4 mt-8">
-            <a href="#projects" className="px-6 py-3 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
-              {lang === "es" ? "Ver Proyectos" : "View Projects"}
-            </a>
-            <a href="#contact" className="px-6 py-3 rounded-full border-2 border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition font-semibold">
-              {lang === "es" ? "Contáctame" : "Contact Me"}
-            </a>
-          </div>
-        </div>
+
+        <ul className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--line)] sm:grid-cols-4">
+          {[
+            ["01", lang === "es" ? "Móvil" : "Mobile", "Flutter y Dart"],
+            ["02", "Frontend", "Vue, Angular, TypeScript"],
+            ["03", "Backend", "Node, Laravel, .NET"],
+            ["04", lang === "es" ? "Estudios" : "Studies", "USIL"],
+          ].map(([index, label, value]) => (
+            <li key={index} className="bg-[var(--surface)] px-4 py-4">
+              <p className="font-mono text-[10px] text-[var(--lime)]">{index}</p>
+              <p className="mt-2 text-sm font-medium text-[var(--ink)]">{label}</p>
+              <p className="mt-1 text-xs text-[var(--soft)]">{value}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

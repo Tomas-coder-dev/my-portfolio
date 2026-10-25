@@ -1,91 +1,131 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { User, GraduationCap, Award } from "lucide-react";
+
+const PILLARS = [
+  {
+    title: { es: "Móvil en producción", en: "Mobile in production" },
+    text: {
+      es: "Flutter para Android e iOS, con publicaciones en Google Play y App Store.",
+      en: "Flutter for Android and iOS, released on Google Play and the App Store.",
+    },
+  },
+  {
+    title: { es: "Backend y cloud", en: "Backend and cloud" },
+    text: {
+      es: "APIs REST, microservicios y despliegues en Google Cloud Run con Docker.",
+      en: "REST APIs, microservices and deploys on Google Cloud Run with Docker.",
+    },
+  },
+  {
+    title: { es: "IA e identidad", en: "AI and identity" },
+    text: {
+      es: "Biometría, prueba de vida, OCR y visión computacional en flujos reales.",
+      en: "Biometrics, liveness, OCR and computer vision in real product flows.",
+    },
+  },
+];
 
 export default function About() {
   const { lang } = useLanguage();
 
-  const data = {
-    title: { es: "Sobre mí", en: "About Me" },
-    summary: {
-      es: "Egresado de Diseño y Desarrollo de Software (TECSUP) y estudiante de Ingeniería de Software (USIL). Desarrollador Full Stack con experiencia en desarrollo web y móvil, construcción de APIs REST, integración de bases de datos y servicios externos. Experiencia en desarrollo y mantenimiento de aplicaciones Android e iOS en producción, implementación de funcionalidades bajo arquitectura de microservicios, mejoras UI/UX y despliegue en tiendas de aplicaciones. Enfocado en construir soluciones escalables y mantenibles, optimizar procesos y mejorar la experiencia de usuario mediante buenas prácticas de desarrollo.",
-      en: "Graduate in Software Design and Development (TECSUP) and Software Engineering student (USIL). Full Stack Developer with experience in web and mobile development, building REST APIs, database integration, and external services. Experienced in developing and maintaining production Android and iOS apps, implementing features using microservices architecture, UI/UX improvements, and app store deployment. Focused on building scalable and maintainable solutions, optimizing processes, and improving user experience through development best practices."
-    },
-    education: {
-      title: { es: "Educación", en: "Education" },
-      items: [
-        {
-          school: "Universidad San Ignacio de Loyola (USIL)",
-          degree: { es: "Ingeniería de Software", en: "Software Engineering" },
-          date: "2026 – Present"
-        },
-        {
-          school: "TECSUP",
-          degree: { es: "Diseño y Desarrollo de Software", en: "Software Design and Development" },
-          date: "2023 – 2025"
-        }
-      ]
-    },
-    certifications: {
-      title: { es: "Certificaciones", en: "Certifications" },
-      items: [
-        "Scrum Fundamentals Certified – SCRUMstudy",
-        "Cybersecurity Fundamentals – Cisco",
-        "Hackathon Becas BCP 2025 – Participant",
-        "Hackathon TECSUP 2024 – Selected team"
-      ]
-    }
+  const profile = {
+    es: [
+      "Desarrollador Full Stack con experiencia en el desarrollo y mantenimiento de aplicaciones web y móviles, APIs REST, microservicios e integraciones con inteligencia artificial. He participado en soluciones de biometría y verificación de identidad, reconocimiento óptico de caracteres (OCR), visión computacional y plataformas empresariales.",
+      "Trabajo con tecnologías como Flutter, Vue.js, Angular, Node.js, TypeScript, Laravel y .NET, integrando servicios cloud, bases de datos y herramientas de control de versiones. Cuento con experiencia en despliegues en Google Cloud Run y publicación de aplicaciones en Google Play y App Store. Egresado de Diseño y Desarrollo de Software por TECSUP y estudiante de Ingeniería de Software en USIL.",
+    ],
+    en: [
+      "Full Stack developer with experience building and maintaining web and mobile apps, REST APIs, microservices and AI integrations. I have worked on biometrics and identity verification, OCR, computer vision and enterprise platforms.",
+      "I work with technologies such as Flutter, Vue.js, Angular, Node.js, TypeScript, Laravel and .NET, integrating cloud services, databases and version control. I have experience deploying on Google Cloud Run and publishing apps on Google Play and the App Store. Graduate of Software Design and Development at TECSUP and a Software Engineering student at USIL.",
+    ],
   };
 
-  return (
-    <section id="about" className="py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center gap-3">
-          <User className="text-blue-500 w-8 h-8" />
-          {data.title[lang]}
-        </h2>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="p-6 md:p-8 rounded-2xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800">
-              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                {data.summary[lang]}
-              </p>
-            </div>
-          </div>
-          
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <GraduationCap className="text-blue-500" />
-                {data.education.title[lang]}
-              </h3>
-              <div className="space-y-4">
-                {data.education.items.map((edu, i) => (
-                  <div key={i} className="pl-4 border-l-2 border-blue-500">
-                    <h4 className="font-semibold text-slate-900 dark:text-white">{edu.school}</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{edu.degree[lang]}</p>
-                    <span className="text-xs text-blue-500 font-mono mt-1 block">{edu.date}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+  const education = [
+    {
+      school: "Universidad San Ignacio de Loyola (USIL)",
+      place: "Lima, Perú",
+      degree: { es: "Ingeniería de Software", en: "Software Engineering" },
+      date: { es: "2026 — Actualidad", en: "2026 — Present" },
+    },
+    {
+      school: "TECSUP",
+      place: "Lima, Perú",
+      degree: {
+        es: "Diseño y Desarrollo de Software — Egresado · Grado de bachiller",
+        en: "Software Design and Development — Graduate · Bachelor's degree",
+      },
+      date: { es: "2023 — 2025", en: "2023 — 2025" },
+    },
+  ];
 
-            <div>
-              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Award className="text-blue-500" />
-                {data.certifications.title[lang]}
-              </h3>
-              <ul className="space-y-2">
-                {data.certifications.items.map((cert, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
-                    <span className="text-blue-500 mt-1">•</span>
-                    {cert}
-                  </li>
-                ))}
-              </ul>
-            </div>
+  const certs = [
+    { es: "Scrum Fundamentals Certified — SCRUMstudy", en: "Scrum Fundamentals Certified — SCRUMstudy" },
+    { es: "Fundamentos de Ciberseguridad — Cisco", en: "Cybersecurity Fundamentals — Cisco" },
+    { es: "Participante — Hackathon Becas BCP 2025", en: "Participant — BCP Scholarship Hackathon 2025" },
+    { es: "Equipo seleccionado — Hackathon TECSUP 2024", en: "Selected team — TECSUP Hackathon 2024" },
+    { es: "Training Camp CPC — UTEC", en: "Training Camp CPC — UTEC" },
+  ];
+
+  return (
+    <section id="about" className="scroll-mt-24 px-4 py-16 md:px-6 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--lime)]">
+          {lang === "es" ? "01  —  Perfil" : "01  —  Profile"}
+        </p>
+        <h2 className="mt-4 max-w-4xl text-[clamp(2.8rem,6vw,5.4rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-[var(--ink)]">
+          {lang === "es" ? "Biometría, OCR" : "Biometrics, OCR"}
+          <span className="signal block text-[var(--lime)]">
+            {lang === "es" ? "y apps publicadas." : "and shipped apps."}
+          </span>
+        </h2>
+
+        <div className="mt-10 rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface)]/90 p-6 md:p-10">
+        <div className="max-w-3xl space-y-4 text-base leading-relaxed text-[var(--ink)] md:text-lg">
+          {profile[lang].map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+
+        <ul className="mt-10 grid gap-3 md:grid-cols-3">
+          {PILLARS.map((item, index) => (
+            <li key={item.title.es} className="rounded-2xl border border-[var(--line)] px-4 py-4">
+              <p className="font-mono text-[11px] text-[var(--lime)]">{String(index + 1).padStart(2, "0")}</p>
+              <h3 className="mt-3 font-semibold text-[var(--ink)]">{item.title[lang]}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--soft)]">{item.text[lang]}</p>
+            </li>
+          ))}
+        </ul>
+        </div>
+
+        <div className="mt-14 grid gap-10 border-t border-[var(--line)] pt-8 md:grid-cols-2">
+          <div>
+            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
+              {lang === "es" ? "Educación" : "Education"}
+            </h3>
+            <ul className="mt-4 divide-y divide-[var(--line)]">
+              {education.map((item) => (
+                <li key={item.school} className="py-4">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <p className="font-semibold text-[var(--ink)]">{item.school}</p>
+                    <p className="shrink-0 font-mono text-xs text-[var(--lime)]">{item.date[lang]}</p>
+                  </div>
+                  <p className="mt-1 text-sm text-[var(--soft)]">{item.degree[lang]}</p>
+                  <p className="text-sm text-[var(--soft)]">{item.place}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
+              {lang === "es" ? "Certificaciones y actividades" : "Certifications and activities"}
+            </h3>
+            <ul className="mt-4 divide-y divide-[var(--line)]">
+              {certs.map((cert) => (
+                <li key={cert.es} className="py-3 text-sm text-[var(--ink)]">
+                  {cert[lang]}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
