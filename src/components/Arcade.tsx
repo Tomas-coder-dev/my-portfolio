@@ -181,20 +181,6 @@ function paint(ctx: CanvasRenderingContext2D, s: Play, lime: string, font: strin
   ctx.fill();
   ctx.globalAlpha = 1;
 
-  if (s.flash > 0) {
-    ctx.globalAlpha = Math.min(1, s.flash / 0.2);
-    ctx.strokeStyle = "#fff";
-    ctx.lineWidth = 4;
-    ctx.shadowColor = lime;
-    ctx.shadowBlur = 20;
-    ctx.beginPath();
-    ctx.moveTo(sx, 12);
-    ctx.lineTo(sx, sy - 16);
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-    ctx.globalAlpha = 1;
-  }
-
   if (s.shield > 0) {
     ctx.globalAlpha = 0.45 + 0.35 * Math.sin(now / 90);
     ctx.strokeStyle = "#fff";
