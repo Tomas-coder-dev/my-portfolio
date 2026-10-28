@@ -1,6 +1,8 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import TiltCard from "@/components/TiltCard";
+import { Award, GraduationCap, MapPin } from "lucide-react";
 
 const PILLARS = [
   {
@@ -79,7 +81,8 @@ export default function About() {
           </span>
         </h2>
 
-        <div className="mt-10 rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface)]/90 p-6 md:p-10">
+        <TiltCard className="mt-10">
+        <div className="rounded-[1.8rem] border border-[var(--line)] bg-[var(--surface)]/90 p-6 shadow-[0_18px_40px_-28px_rgba(255,45,60,0.35)] md:p-10">
         <div className="max-w-3xl space-y-4 text-base leading-relaxed text-[var(--ink)] md:text-lg">
           {profile[lang].map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
@@ -88,7 +91,7 @@ export default function About() {
 
         <ul className="mt-10 grid gap-3 md:grid-cols-3">
           {PILLARS.map((item, index) => (
-            <li key={item.title.es} className="rounded-2xl border border-[var(--line)] px-4 py-4">
+            <li key={item.title.es} className="rounded-2xl border border-[var(--line)] bg-[var(--chip)] px-4 py-4">
               <p className="font-mono text-[11px] text-[var(--lime)]">{String(index + 1).padStart(2, "0")}</p>
               <h3 className="mt-3 font-semibold text-[var(--ink)]">{item.title[lang]}</h3>
               <p className="mt-2 text-sm leading-relaxed text-[var(--soft)]">{item.text[lang]}</p>
@@ -96,37 +99,68 @@ export default function About() {
           ))}
         </ul>
         </div>
+        </TiltCard>
 
-        <div className="mt-14 grid gap-10 border-t border-[var(--line)] pt-8 md:grid-cols-2">
-          <div>
-            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
-              {lang === "es" ? "Educación" : "Education"}
-            </h3>
-            <ul className="mt-4 divide-y divide-[var(--line)]">
-              {education.map((item) => (
-                <li key={item.school} className="py-4">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <p className="font-semibold text-[var(--ink)]">{item.school}</p>
-                    <p className="shrink-0 font-mono text-xs text-[var(--lime)]">{item.date[lang]}</p>
-                  </div>
-                  <p className="mt-1 text-sm text-[var(--soft)]">{item.degree[lang]}</p>
-                  <p className="text-sm text-[var(--soft)]">{item.place}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
-              {lang === "es" ? "Certificaciones y actividades" : "Certifications and activities"}
-            </h3>
-            <ul className="mt-4 divide-y divide-[var(--line)]">
-              {certs.map((cert) => (
-                <li key={cert.es} className="py-3 text-sm text-[var(--ink)]">
-                  {cert[lang]}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-14 grid gap-5 border-t border-[var(--line)] pt-8 md:grid-cols-2">
+          <TiltCard>
+            <div className="glow-card h-full border border-[var(--line)] p-6 shadow-[0_18px_40px_-28px_rgba(255,45,60,0.35)]">
+              <div className="relative z-[1]">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex size-10 items-center justify-center rounded-xl border border-[var(--lime)] bg-[var(--chip)] text-[var(--lime)] shadow-[0_0_24px_-8px_rgba(255,45,60,0.55)]">
+                    <GraduationCap className="size-5" />
+                  </span>
+                  <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
+                    {lang === "es" ? "Educación" : "Education"}
+                  </h3>
+                </div>
+                <ul className="mt-5 space-y-3">
+                  {education.map((item) => (
+                    <li
+                      key={item.school}
+                      className="rounded-2xl border border-[var(--line)] bg-[var(--chip)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <p className="font-semibold leading-snug text-[var(--ink)]">{item.school}</p>
+                        <p className="shrink-0 rounded-full border border-[var(--lime)] px-2 py-0.5 font-mono text-[10px] text-[var(--lime)]">
+                          {item.date[lang]}
+                        </p>
+                      </div>
+                      <p className="mt-2 text-sm text-[var(--soft)]">{item.degree[lang]}</p>
+                      <p className="mt-1 flex items-center gap-1 text-xs text-[var(--soft)]">
+                        <MapPin className="size-3 text-[var(--lime)]" />
+                        {item.place}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </TiltCard>
+          <TiltCard>
+            <div className="glow-card h-full border border-[var(--line)] p-6 shadow-[0_18px_40px_-28px_rgba(255,45,60,0.35)]">
+              <div className="relative z-[1]">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex size-10 items-center justify-center rounded-xl border border-[var(--lime)] bg-[var(--chip)] text-[var(--lime)] shadow-[0_0_24px_-8px_rgba(255,45,60,0.55)]">
+                    <Award className="size-5" />
+                  </span>
+                  <h3 className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--lime)]">
+                    {lang === "es" ? "Certificaciones y actividades" : "Certifications and activities"}
+                  </h3>
+                </div>
+                <ul className="mt-5 space-y-2">
+                  {certs.map((cert) => (
+                    <li
+                      key={cert.es}
+                      className="flex items-start gap-3 rounded-xl border border-[var(--line)] bg-[var(--chip)] px-3 py-2.5 text-sm text-[var(--ink)]"
+                    >
+                      <Award className="mt-0.5 size-3.5 shrink-0 text-[var(--lime)]" />
+                      {cert[lang]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </TiltCard>
         </div>
       </div>
     </section>

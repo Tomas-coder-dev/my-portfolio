@@ -72,7 +72,7 @@ export default function CodeRain() {
       readFont();
       layout();
       ctx.font = font;
-      ctx.fillStyle = isDark() ? "rgba(255, 45, 60, 0.16)" : "rgba(180, 16, 32, 0.14)";
+      ctx.fillStyle = isDark() ? "rgba(255, 45, 60, 0.16)" : "rgba(120, 24, 36, 0.08)";
       const step = 16;
       for (const col of cols) {
         for (let row = 1; row < height / step; row += 2) {
@@ -117,7 +117,7 @@ export default function CodeRain() {
       ctx.fillRect(0, 0, width, height);
       ctx.globalCompositeOperation = "source-over";
       ctx.font = font;
-      ctx.fillStyle = dark ? "rgba(255, 45, 60, 0.78)" : "rgba(176, 16, 32, 0.42)";
+      ctx.fillStyle = dark ? "rgba(255, 45, 60, 0.78)" : "rgba(120, 24, 36, 0.16)";
 
       for (const col of cols) {
         const index = Math.floor(col.y) % col.text.length;

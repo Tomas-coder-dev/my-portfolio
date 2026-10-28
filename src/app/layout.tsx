@@ -1,12 +1,23 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist_Mono, Outfit, Syne } from "next/font/google"
 import "@/styles/globals.css"
 import CodeRain from "@/components/CodeRain"
 import Navbar from "@/components/navbar/Navbar"
+import SectionRail from "@/components/SectionRail"
+import ScrollProgress from "@/components/ScrollProgress"
+import CursorDot from "@/components/CursorDot"
 import { LanguageProvider } from "@/context/LanguageContext"
+import { CvProvider } from "@/context/CvContext"
+import CvModal from "@/components/cv/CvModal"
 
-const geistSans = Geist({
+const sans = Outfit({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+})
+
+const display = Syne({
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 })
@@ -17,7 +28,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
-const themeInit = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"){document.documentElement.classList.add("dark")}}catch(e){}})();`
+const themeInit = `(function(){try{var t=localStorage.getItem("theme");var dark=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",dark)}catch(e){}})();`
 
 export const metadata: Metadata = {
   title: "Fabricio Aylas Moreno | Desarrollador Full Stack",
@@ -40,14 +51,20 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} craft min-h-screen antialiased`}
+        className={`${sans.variable} ${display.variable} ${geistMono.variable} craft min-h-screen antialiased`}
       >
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <ScrollProgress />
+        <CursorDot />
         <CodeRain />
-        <LanguageProvider>
-          <Navbar />
-          <main className="relative z-10">{children}</main>
-        </LanguageProvider>
+        <CvProvider>
+          <LanguageProvider>
+            <Navbar />
+            <SectionRail />
+            <main className="relative z-10 overflow-x-clip">{children}</main>
+            <CvModal />
+          </LanguageProvider>
+        </CvProvider>
       </body>
     </html>
   )

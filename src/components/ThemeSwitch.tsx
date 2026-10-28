@@ -11,6 +11,15 @@ export default function ThemeSwitch() {
   useEffect(() => {
     setChecked(document.documentElement.classList.contains("dark"));
     setReady(true);
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onSystem = () => {
+      if (localStorage.getItem("theme")) return;
+      const dark = media.matches;
+      document.documentElement.classList.toggle("dark", dark);
+      setChecked(dark);
+    };
+    media.addEventListener("change", onSystem);
+    return () => media.removeEventListener("change", onSystem);
   }, []);
 
   const toggle = () => {

@@ -19,8 +19,8 @@ export default function TiltPortrait() {
   const [active, setActive] = useState(false);
   const mx = useMotionValue(50);
   const my = useMotionValue(50);
-  const rotateX = useSpring(useTransform(my, [0, 100], [16, -16]), SPRING);
-  const rotateY = useSpring(useTransform(mx, [0, 100], [-18, 18]), SPRING);
+  const rotateX = useSpring(useTransform(my, [0, 100], [7, -7]), SPRING);
+  const rotateY = useSpring(useTransform(mx, [0, 100], [-8, 8]), SPRING);
   const glare = useMotionTemplate`radial-gradient(280px circle at ${mx}% ${my}%, rgba(255,255,255,0.45), rgba(255,45,60,0.2) 28%, transparent 46%)`;
 
   function onMove(event: React.PointerEvent<HTMLDivElement>) {
@@ -40,12 +40,24 @@ export default function TiltPortrait() {
 
   return (
     <div className="relative mx-auto w-fit">
-      <span className="pointer-events-none absolute -left-3 -top-3 z-10 size-7 border-l-2 border-t-2 border-[var(--lime)]" />
-      <span className="pointer-events-none absolute -right-3 -top-3 z-10 size-7 border-r-2 border-t-2 border-[var(--lime)]" />
-      <span className="pointer-events-none absolute -bottom-3 -left-3 z-10 size-7 border-b-2 border-l-2 border-[var(--lime)]" />
-      <span className="pointer-events-none absolute -bottom-3 -right-3 z-10 size-7 border-b-2 border-r-2 border-[var(--lime)]" />
+      <span className="orbit orbit-a pointer-events-none absolute z-0" aria-hidden />
+      <span className="orbit orbit-b pointer-events-none absolute z-0" aria-hidden />
+      <span className="orbit-rotor orbit-rotor-a pointer-events-none absolute z-0" aria-hidden>
+        <span />
+        <span />
+      </span>
+      <span className="orbit-rotor orbit-rotor-b pointer-events-none absolute z-0" aria-hidden>
+        <span />
+      </span>
+      <span className="portrait-halo pointer-events-none absolute -inset-4 z-0" aria-hidden />
+      <span className="portrait-marks pointer-events-none absolute -inset-4 z-0" aria-hidden>
+        <span />
+        <span />
+        <span />
+        <span />
+      </span>
 
-      <div className="[perspective:1100px]">
+      <div className="relative z-10 [perspective:1100px]">
         <motion.div
           ref={ref}
           onPointerMove={onMove}
@@ -59,10 +71,10 @@ export default function TiltPortrait() {
           }
           style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
           data-tilt="portrait"
-          className="w-[min(78vw,280px)] cursor-pointer touch-manipulation"
+          className="relative z-10 w-[min(78vw,280px)] cursor-pointer touch-manipulation"
         >
-          <div className="rounded-[1.7rem] bg-[var(--surface)] p-2.5 shadow-[0_28px_60px_-28px_rgba(0,0,0,0.55)] ring-1 ring-[var(--line)]">
-            <div className="relative overflow-hidden rounded-[1.25rem] bg-zinc-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]">
+          <div className="rounded-[1.7rem] bg-[var(--surface)] p-2 shadow-[0_24px_50px_-28px_rgba(0,0,0,0.5)] ring-1 ring-[var(--line)]">
+            <div className="relative overflow-hidden rounded-[1.35rem] bg-zinc-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]">
               <Image
                 src="https://avatars.githubusercontent.com/u/149453943?v=4"
                 alt="Fabricio Aylas Moreno"
@@ -76,8 +88,11 @@ export default function TiltPortrait() {
                 style={{ background: glare, opacity: active ? 1 : 0.35 }}
                 className="pointer-events-none absolute inset-0 mix-blend-soft-light"
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-4 pb-3 pt-12">
-                <p className="font-mono text-[11px] tracking-wide text-white/90">Full stack · Lima</p>
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/75 to-transparent px-3.5 pb-3 pt-14">
+                <p className="flex items-center gap-2 font-mono text-[11px] tracking-wide text-white">
+                  <span className="size-1.5 rounded-full bg-[var(--lime)] shadow-[0_0_8px_var(--lime)]" />
+                  Full stack · Lima
+                </p>
               </div>
             </div>
           </div>

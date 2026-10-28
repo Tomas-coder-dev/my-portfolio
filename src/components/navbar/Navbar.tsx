@@ -6,19 +6,20 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import LangSwitch from "@/components/LangSwitch";
 import { useLanguage } from "@/context/LanguageContext";
 import { Menu, X } from "lucide-react";
+import CvOpenButton from "@/components/CvOpenButton";
 
 const NAV = {
   es: [
-    { label: "Perfil", href: "#about" },
-    { label: "Proyectos", href: "#projects" },
-    { label: "Experiencia", href: "#experience" },
-    { label: "Habilidades", href: "#skills" },
+    { label: "Perfil", href: "/#about" },
+    { label: "Proyectos", href: "/#projects" },
+    { label: "Experiencia", href: "/#experience" },
+    { label: "Habilidades", href: "/#skills" },
   ],
   en: [
-    { label: "Profile", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
-    { label: "Skills", href: "#skills" },
+    { label: "Profile", href: "/#about" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Experience", href: "/#experience" },
+    { label: "Skills", href: "/#skills" },
   ],
 } as const;
 
@@ -44,22 +45,22 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="relative z-50 border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:px-6">
-        <a href="#hero" className="glitch font-mono text-sm font-semibold tracking-tight text-[var(--ink)]">
+      <div className="nav-shell relative z-50 border-b border-[var(--line)] bg-[var(--nav)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3.5 sm:gap-6 md:px-6">
+        <a href="/#hero" className="glitch-soft shrink-0 font-mono text-sm font-semibold tracking-tight text-[var(--ink)]">
           FA<span className="text-[var(--lime)]">/</span>dev
         </a>
 
-        <nav className="hidden items-center gap-6 md:flex" aria-label={lang === "es" ? "Secciones" : "Sections"}>
+        <nav className="hidden items-center gap-1 rounded-full border border-[var(--line)] bg-[var(--surface)]/70 px-2 py-1 md:flex" aria-label={lang === "es" ? "Secciones" : "Sections"}>
           {links.map((link) => {
-            const id = link.href.slice(1);
+            const id = link.href.split("#")[1] ?? "";
             const isActive = active === id;
             return (
               <a
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? "true" : undefined}
-                className={`text-sm ${isActive ? "text-[var(--lime)]" : "text-[var(--soft)] hover:text-[var(--ink)]"}`}
+                className={`nav-link glitch-soft rounded-full px-3.5 py-1.5 text-sm ${isActive ? "bg-[var(--lime)]/15 text-[var(--lime)]" : "text-[var(--soft)] hover:bg-[var(--lime)]/10 hover:text-[var(--ink)]"}`}
               >
                 {link.label}
               </a>
@@ -67,12 +68,15 @@ export default function Navbar() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a href="#contact" className="btn btn-primary glitch hidden px-3 py-2 md:inline-flex">
+        <div className="flex items-center gap-3">
+          <CvOpenButton compact className="hidden md:inline-flex" />
+          <a href="/#contact" className="btn-nav btn-nav-outline glitch-soft hidden md:inline-flex">
             {lang === "es" ? "Contacto" : "Contact"}
           </a>
+          <div className="flex items-center gap-2 border-l border-[var(--line)] pl-3">
           <LangSwitch lang={lang} onToggle={() => setLang(lang === "es" ? "en" : "es")} />
           <ThemeSwitch />
+          </div>
           <button
             type="button"
             className="inline-flex size-10 items-center justify-center rounded-full border border-[var(--line)] text-[var(--ink)] md:hidden"
@@ -108,7 +112,11 @@ export default function Navbar() {
                 {link.label}
               </motion.a>
             ))}
-            <a href="#contact" onClick={() => setOpen(false)} className="btn btn-primary mt-4 w-fit">
+            <a href="/#arcade" onClick={() => setOpen(false)} className="text-4xl font-semibold tracking-tight text-[var(--ink)]">
+              {lang === "es" ? "Juego" : "Game"}
+            </a>
+            <CvOpenButton className="mt-2 w-fit" />
+            <a href="/#contact" onClick={() => setOpen(false)} className="btn btn-primary mt-4 w-fit">
               {lang === "es" ? "Contacto" : "Contact"}
             </a>
           </motion.nav>

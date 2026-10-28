@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useLanguage } from "@/context/LanguageContext";
 import SectionTitle from "@/components/SectionTitle";
+import TiltCard from "@/components/TiltCard";
+import GlowSkillTag from "@/components/GlowSkillTag";
 import { Briefcase } from "lucide-react";
 
 type Copy = { es: string; en: string };
@@ -149,43 +151,69 @@ export default function Experience() {
           icon={<Briefcase className="size-7" />}
         />
 
-        <ol className="m-0 list-none border-t border-[var(--line)] p-0">
+        <div className="relative">
+          <div
+            aria-hidden
+            className="absolute bottom-4 left-[11px] top-2 w-px bg-gradient-to-b from-[var(--lime)] via-[var(--line)] to-transparent md:left-[31px]"
+          />
+          <ol className="m-0 grid list-none gap-8 p-0">
           {JOBS.map((job, index) => {
             const [start, end] = job.date[lang].split(" — ");
             return (
               <motion.li
                 key={job.company}
-                initial={reduce ? false : { opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="relative pl-9 md:pl-16"
+                initial={reduce ? false : { opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: reduce ? 0 : 0.45, delay: reduce ? 0 : index * 0.04 }}
-                className="grid gap-3 border-b border-[var(--line)] py-10 md:grid-cols-[4.5rem_1fr_13rem] md:gap-8"
+                transition={{ duration: reduce ? 0 : 0.45, delay: reduce ? 0 : index * 0.05 }}
               >
-                <p className="font-mono text-sm text-[var(--lime)]">{String(index + 1).padStart(2, "0")}</p>
-                <div>
-                  <h3 className="text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">{job.company}</h3>
-                  <p className="mt-1 text-sm text-[var(--soft)]">{job.product[lang]}</p>
-                  <p className="mt-3 text-sm text-[var(--ink)]">
-                    {job.role[lang]}
-                    <span className="text-[var(--soft)]"> · {job.place[lang]}</span>
-                  </p>
-                  <ul className="mt-4 space-y-2">
-                    {job.points[lang].map((point) => (
-                      <li key={point} className="text-sm leading-relaxed text-[var(--soft)]">
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-4 font-mono text-xs leading-relaxed text-[var(--soft)]">{job.stack.join("  ·  ")}</p>
-                </div>
-                <p className="font-mono text-xs text-[var(--soft)] md:text-right">
-                  <span className="block text-[var(--ink)]">{start}</span>
-                  <span className={`mt-1 block ${job.current ? "text-[var(--lime)]" : ""}`}>{end ?? job.date[lang]}</span>
-                </p>
+                <span
+                  className={`timeline-dot absolute left-0 top-8 z-10 size-[14px] rounded-full border-2 border-[var(--bg)] md:left-6 ${job.current ? "bg-[var(--lime)]" : "bg-[var(--soft)]"}`}
+                  aria-hidden
+                />
+                <TiltCard>
+                  <article className="glow-card border border-[var(--line)] p-6 shadow-[0_18px_40px_-28px_rgba(255,45,60,0.35)] md:p-8">
+                    <div className="relative z-[1]">
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div className="flex items-start gap-4">
+                        <p className="font-mono text-sm text-[var(--lime)]">{String(index + 1).padStart(2, "0")}</p>
+                        <div>
+                          <h3 className="text-2xl font-semibold tracking-tight text-[var(--ink)] md:text-3xl">{job.company}</h3>
+                          <p className="mt-1 text-sm text-[var(--soft)]">{job.product[lang]}</p>
+                        </div>
+                      </div>
+                      <p className="font-mono text-xs text-[var(--soft)] md:text-right">
+                        <span className="block text-[var(--ink)]">{start}</span>
+                        <span className={`mt-1 block ${job.current ? "text-[var(--lime)]" : ""}`}>{end ?? job.date[lang]}</span>
+                      </p>
+                    </div>
+                    <p className="mt-4 text-sm text-[var(--ink)]">
+                      {job.role[lang]}
+                      <span className="text-[var(--soft)]"> · {job.place[lang]}</span>
+                    </p>
+                    <ul className="mt-4 space-y-2">
+                      {job.points[lang].map((point) => (
+                        <li key={point} className="text-sm leading-relaxed text-[var(--soft)]">
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="mt-5 flex flex-wrap gap-2">
+                      {job.stack.map((t) => (
+                        <li key={t}>
+                          <GlowSkillTag label={t} />
+                        </li>
+                      ))}
+                    </ul>
+                    </div>
+                  </article>
+                </TiltCard>
               </motion.li>
             );
           })}
         </ol>
+        </div>
       </div>
     </section>
   );
