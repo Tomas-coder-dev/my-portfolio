@@ -97,9 +97,9 @@ export default function Hero() {
 
             <div className="mt-8 max-w-md space-y-5">
               <p className="text-lg leading-relaxed text-[var(--ink)]">{copy.who[lang]}</p>
-              <p className="font-mono text-sm leading-relaxed text-[var(--soft)]">
-                {copy.study[lang]}
-                <span className="mx-2 text-[var(--lime)]">/</span>
+              <p className="font-mono text-sm leading-relaxed text-[var(--soft)]">{copy.study[lang]}</p>
+              <p className="min-h-6 font-mono text-sm leading-relaxed text-[var(--soft)]">
+                <span className="mr-2 text-[var(--lime)]">/</span>
                 {typed}
                 <span className="ml-0.5 inline-block h-3 w-px translate-y-0.5 bg-[var(--lime)]" />
               </p>
