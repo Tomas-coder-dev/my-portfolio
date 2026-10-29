@@ -63,12 +63,6 @@ export default function TiltPortrait() {
           onPointerMove={onMove}
           onPointerLeave={reset}
           onPointerCancel={reset}
-          animate={reduce || active ? { y: 0 } : { y: [0, -8, 0] }}
-          transition={
-            reduce || active
-              ? { duration: 0.2 }
-              : { duration: 5.5, repeat: Infinity, ease: "easeInOut" }
-          }
           style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
           data-tilt="portrait"
           className="relative z-10 w-[min(78vw,280px)] cursor-pointer touch-manipulation"
